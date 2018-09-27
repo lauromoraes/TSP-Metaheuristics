@@ -40,7 +40,8 @@ class Solution(object):
         for i in range(len(self.route)-1):
             origin, destination = self.route[i], self.route[i+1]
             total+=self.distances[origin, destination]
-        return float(total)
+        self.fo = float(total)
+        return self.fo
 
     def copy_stats(self, another_solution):
         for i in range(len(self.route)):

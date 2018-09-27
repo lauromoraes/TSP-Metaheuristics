@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from Method import *
-from Solution import *
+from Solution import Solution, SolutionFactory
 from Descent import *
 from SimulatedAnnealing import *
 
@@ -63,5 +63,4 @@ class MultiStart(Method):
     def run(self):
         self.factory = SolutionFactory(self.distances)
         self.multi_start()
-        # self.solution.fo = self.solution.fo # Update FO value on Solution object
         return self.solution.fo

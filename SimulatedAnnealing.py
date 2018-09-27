@@ -35,11 +35,8 @@ class SimulatedAnnealing(Method):
 
     def simulated_annealing(self, alfa=.98, SAmax=2500):
         import copy
-        import matplotlib.pyplot as plt
-        import numpy as np
 
         temp = float(self.initial_temperature)
-        processing = True
         # Makes a star solution as deep copy of initial solution
         solution_star = copy.deepcopy(self.solution)
         fo_star = solution_star.fo
@@ -48,12 +45,8 @@ class SimulatedAnnealing(Method):
         fo = solution.fo
         route = solution.route
 
-        temps = []
-        stars = []
-        fos = []
-
         while temp > 0.01:
-            for iterT in xrange(0,SAmax):
+            for iterT in range(0,SAmax):
                 # Gets data of Solution line
                 new_i, new_j, new_fo = self.random_neighbour()
                 delta = new_fo - fo
@@ -68,27 +61,25 @@ class SimulatedAnnealing(Method):
                     if random.uniform(0,1) < math.exp(-delta/temp):
                         route[new_i], route[new_j] = route[new_j], route[new_i] # Apply movement
                         solution.fo = fo = new_fo
-                temps.append(temp)
-                stars.append(fo_star)
-                fos.append(fo)
+                self.metrics['temps'].append(temp)
+                self.metrics['stars'].append(fo_star)
+                self.metrics['fos'].append(fo)
             temp = alfa*temp
             # temps.append(temp)
             # stars.append(fo_star)
             # fos.append(fo)
         self.solution = copy.deepcopy(solution_star)
         print(self.solution.fo)
-        plt.plot(temps)
-        plt.plot(stars)
-        plt.plot(fos)
-        plt.legend(['temps', 'stars', 'fos'])
-        plt.show()
         return self.solution
 
-
     def run(self):
+        self.set_metrics('temps', 'stars', 'fos')
+        
         self.initial_temperature = self.calcInitialTemperature()
         print('initial_temperature', self.initial_temperature)
         self.simulated_annealing()
-        # self.solution.fo = self.solution.fo # Update FO value on Solution object
+        
+        #self.plot_metrics()
+        
         return self.solution.fo
         

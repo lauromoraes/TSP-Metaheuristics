@@ -1,10 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os
+from os import *
 import time
-
-from Problem import *
 
 class Menu(object):
     def __init__(self, problem):
@@ -37,8 +35,10 @@ class Menu(object):
             print('\t1. Initial Solution')
             print('\t2. Best Improvement Descent')
             print('\t3. First Improvement Descent')
-            print('\t4. Simulated Annealing')
-            print('\t5. Multi Start')
+            print('\t4. Random Descent')
+            print('\t5. Simulated Annealing')
+            print('\t6. Multi Start')
+            print('\t7. Iterated Local Search')
             print('\t0. Quit')
             print('*'*50)
             if self.problem.solution!=None:
@@ -81,11 +81,17 @@ class Menu(object):
             print('\t* First Improvement Descent')
             self.problem.apply_method('FirstImproventDescent')
         elif opt==4:
+            print('\t* Random Descent')
+            self.problem.apply_method('RandomDescent')
+        elif opt==5:
             print('\t* Simulated Annealing')
             self.problem.apply_method('SimulatedAnnealing')
-        elif opt==5:
+        elif opt==6:
             print('\t* Multi Start')
             self.problem.apply_method('MultiStart')
+        elif opt==7:
+            print('\t* Iterated Local Search')
+            self.problem.apply_method('IteratedLocalSearch')
         else:
             print('ERROR: invalid option ({})'.format(opt))
         print(self.problem.solution)

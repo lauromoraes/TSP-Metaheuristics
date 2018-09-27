@@ -36,12 +36,18 @@ class Problem(object):
         self.initial_solution=self.solution=self.solution_factory.setup_solution(solution_type)
 
     def apply_method(self, method_type):
-        if method_type=='FirstImproventDescent':
-            self.method = FirstImproventDescent(self.solution)
-        elif method_type=='BestImproventDescent':
-            self.method = BestImproventDescent(self.solution)
-        elif method_type=='SimulatedAnnealing':
-            self.method = SimulatedAnnealing(self.solution)
-        elif method_type=='MultiStart':
-            self.method = MultiStart(self.solution)
+        method_class = getattr(__import__(method_type), method_type)
+        self.method = method_class(self.solution)
         self.solution = self.method.solution
+
+#        if method_type=='FirstImproventDescent':
+#            self.method = FirstImproventDescent(self.solution)
+#        elif method_type=='BestImproventDescent':
+#            self.method = BestImproventDescent(self.solution)
+#        elif method_type=='SimulatedAnnealing':
+#            self.method = SimulatedAnnealing(self.solution)
+#        elif method_type=='MultiStart':
+#            self.method = MultiStart(self.solution)
+#        elif method_type=='MultiStart':
+#            self.method = MultiStart(self.solution)
+#        self.solution = self.method.solution

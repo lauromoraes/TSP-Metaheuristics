@@ -9,10 +9,35 @@ class Method(object):
         self.n_cities=solution.n_cities
         self.distances=solution.distances
         self.fo=solution.fo
+        self.metrics={}
         self.run()
 
     def run(self):
         raise NotImplementedError('Please implement this method')
+    
+    def set_metrics(self, *names):
+        self.metrics = { metricName:[] for metricName in list(names) }
+        return self.metrics
+    
+    def plot_metrics(self):
+        import matplotlib.pyplot as plt
+        
+        for metricName, values in self.metrics.items():
+            plt.plot(values)
+        plt.legend(self.metrics.keys())
+        plt.show()
+    
+    def local_search(self, solution, method_type=1):
+        from Descent import FirstImproventDescent, BestImproventDescent, SimulatedAnnealing
+
+        if method_type==1:
+            method = FirstImproventDescent(solution)
+        elif method_type==2:
+            method = BestImproventDescent(solution)
+        elif method_type==3:
+            method = SimulatedAnnealing(solution)
+
+        return solution.fo, method.solution
 
     def search_neighbour(self):
         raise NotImplementedError('Please implement this method')
