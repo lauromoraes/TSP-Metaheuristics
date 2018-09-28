@@ -39,15 +39,4 @@ class Problem(object):
         method_class = getattr(__import__(method_type), method_type)
         self.method = method_class(self.solution)
         self.solution = self.method.solution
-
-#        if method_type=='FirstImproventDescent':
-#            self.method = FirstImproventDescent(self.solution)
-#        elif method_type=='BestImproventDescent':
-#            self.method = BestImproventDescent(self.solution)
-#        elif method_type=='SimulatedAnnealing':
-#            self.method = SimulatedAnnealing(self.solution)
-#        elif method_type=='MultiStart':
-#            self.method = MultiStart(self.solution)
-#        elif method_type=='MultiStart':
-#            self.method = MultiStart(self.solution)
-#        self.solution = self.method.solution
+        return self.method, self.solution

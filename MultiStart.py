@@ -15,7 +15,7 @@ class MultiStart(Method):
             construct_type = 1
             print('ERROR: invalid option ({}) for construct method. Switch to "Random Construct Method.".'.format(construct_type))
         solution = self.factory.setup_solution(construct_type)
-        return solution
+        return solution, solution.fo
 
     def improve_solution(self, solution, method_type=1):
         if method_type==1:
@@ -25,7 +25,7 @@ class MultiStart(Method):
         elif method_type==3:
             method = SimulatedAnnealing(solution)
         solution = method.solution
-        return solution
+        return solution, solution.fo
 
     # def get_neighbour_method(self, neighbour_type=1):
     #     if neighbour_type==1:
@@ -40,21 +40,30 @@ class MultiStart(Method):
     #     return neighbour_method
 
 
-    def multi_start(self, iter_max=2500, construct_type=1, method_type=1):
+    def multi_start(self, iter_max=1500, construct_type=1, method_type=1):
+        self.set_metrics('constructedFo','refinedFo','stars')
+        
         import copy
         fo_star = float('inf')
-        cnt=0
+        cnt, cnt_abs = 0, 0
 
         while cnt<iter_max:
+            cnt_abs += 1
             # Construct a solution
-            solution = self.construct_solution(construct_type)
+            solution, constructed_fo = self.construct_solution(construct_type)
             # Improve current solution
-            solution = self.improve_solution(solution, method_type)
+            solution, refined_fo = self.improve_solution(solution, method_type)
             if solution.fo < fo_star:
                 solution_star = copy.deepcopy(solution)
                 fo_star = solution_star.fo
                 cnt = 0
+                print('UPDATE', cnt_abs, cnt, constructed_fo, refined_fo, fo_star)
             cnt+=1
+            self.metrics['constructedFo'].append(constructed_fo)
+            self.metrics['refinedFo'].append(refined_fo)
+            self.metrics['stars'].append(fo_star)
+            if cnt_abs % 100 == 0:
+                print(cnt_abs, cnt, constructed_fo, refined_fo, fo_star)
         self.solution = solution_star
         self.fo = self.solution.fo
         return self.solution

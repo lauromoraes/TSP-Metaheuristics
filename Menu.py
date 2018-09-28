@@ -69,6 +69,7 @@ class Menu(object):
 
     def exec_operation(self, opt):
         import time
+        method = None
         ini_time = time.clock()
         if opt==0:
             self.quit()
@@ -76,25 +77,27 @@ class Menu(object):
             self.screen_construction()
         elif opt==2:
             print('\t* Best Improvement Descent')
-            self.problem.apply_method('BestImproventDescent')
+            method, _ = self.problem.apply_method('BestImproventDescent')
         elif opt==3:
             print('\t* First Improvement Descent')
-            self.problem.apply_method('FirstImproventDescent')
+            method, _ = self.problem.apply_method('FirstImproventDescent')
         elif opt==4:
             print('\t* Random Descent')
-            self.problem.apply_method('RandomDescent')
+            method, _ = self.problem.apply_method('RandomDescent')
         elif opt==5:
             print('\t* Simulated Annealing')
-            self.problem.apply_method('SimulatedAnnealing')
+            method, _ = self.problem.apply_method('SimulatedAnnealing')
         elif opt==6:
             print('\t* Multi Start')
-            self.problem.apply_method('MultiStart')
+            method, _ = self.problem.apply_method('MultiStart')
         elif opt==7:
             print('\t* Iterated Local Search')
-            self.problem.apply_method('IteratedLocalSearch')
+            method, _ = self.problem.apply_method('IteratedLocalSearch')
         else:
             print('ERROR: invalid option ({})'.format(opt))
         print(self.problem.solution)
         print('Time {}'.format(time.clock()-ini_time))
+        if method and method.metrics:
+            method.plot_metrics()
         raw_input('\nPress ENTER to continue...')
 

@@ -79,7 +79,7 @@ class SimulatedAnnealing(Method):
         print('initial_temperature', self.initial_temperature)
         self.simulated_annealing()
         
-        #self.plot_metrics()
+#        self.plot_metrics()
         
         return self.solution.fo
         

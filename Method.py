@@ -9,7 +9,7 @@ class Method(object):
         self.n_cities=solution.n_cities
         self.distances=solution.distances
         self.fo=solution.fo
-        self.metrics={}
+        self.metrics=None
         self.run()
 
     def run(self):
@@ -44,7 +44,6 @@ class Method(object):
 
     def best_neighbour(self):
         n=self.n_cities
-        print('best_neighbour', n)
         route=self.solution.route
         fo_best_neighbour=fo=self.fo
         best_i = best_j = None

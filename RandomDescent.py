@@ -12,14 +12,18 @@ class RandomDescent(Method):
         super(RandomDescent, self).__init__(solution)
 
     def run(self):
+        self.set_metrics('fos','stars')
+        
         fo, route = self.solution.fo, self.solution.route
-        it, iter_max = 0, 100
+        it, iter_max = 0, 1000
 
         while it < iter_max:
             it += 1
             improved = True
             while improved:
                 new_i, new_j, fo_new_neighbour = self.random_neighbour()
+                self.metrics['fos'].append(fo_new_neighbour)
+                self.metrics['stars'].append(fo)
                 if fo_new_neighbour < fo:
                     it+=1
                     route[new_i], route[new_j] = route[new_j], route[new_i] # Apply movement

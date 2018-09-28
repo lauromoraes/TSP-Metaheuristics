@@ -42,6 +42,17 @@ class Solution(object):
             total+=self.distances[origin, destination]
         self.fo = float(total)
         return self.fo
+    
+    def delta(self, i, j):
+        n = self.n_cities-1
+        i_before = n-1 if i==0   else i-1
+        j_before = n-1 if j==0   else j-1
+        i_after = i+1
+        j_after = j+1
+        # i_after  = 0   if i==n-1 else i+1
+        # j_after  = 0   if j==n-1 else j+1
+        R, D = self.route, self.distances
+        return D[R[i_before], R[i]] + D[R[i], R[i_after]] + D[R[j_before], R[j]] + D[R[j], R[j_after]]
 
     def copy_stats(self, another_solution):
         for i in range(len(self.route)):
