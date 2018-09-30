@@ -39,6 +39,7 @@ class Menu(object):
             print('\t5. Simulated Annealing')
             print('\t6. Multi Start')
             print('\t7. Iterated Local Search')
+            print('\t8. Tabu Search')
             print('\t0. Quit')
             print('*'*50)
             if self.problem.solution!=None:
@@ -93,6 +94,9 @@ class Menu(object):
         elif opt==7:
             print('\t* Iterated Local Search')
             method, _ = self.problem.apply_method('IteratedLocalSearch')
+        elif opt==8:
+            print('\t* Tabu Search')
+            method, _ = self.problem.apply_method('TabuSearch')
         else:
             print('ERROR: invalid option ({})'.format(opt))
         print(self.problem.solution)

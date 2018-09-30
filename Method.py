@@ -69,6 +69,7 @@ class Method(object):
                 # Switch back positions of cities, restoring previus route.
                 route[i], route[j] = route[j], route[i] # Remove movement
         return best_i, best_j, fo_best_neighbour
+    
 
     def adjacent_neighbour(self):
         n=self.n_cities
