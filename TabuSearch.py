@@ -49,10 +49,10 @@ class TabuSearch(Method):
                 fo_neighbour = fo - delta1 + delta2
                 # Verify if this new Objective Function is better than global - aspiration.
 #                print(i, j, fo_neighbour, fo_neighbour, fo_best_neighbour, self.tabu_matrix[i-1][j-1])
-                if fo_neighbour < self.best_fo and self.current_iteration <= self.tabu_matrix[i-1][j-1]:
+                if fo_neighbour < self.best_fo and self.current_iteration <= self.tabu_matrix[i-1][j-1] and fo_neighbour < fo_best_neighbour:
                     new_i, new_j = i, j
                     fo_best_neighbour = fo_neighbour
-#                    print('TABU', i, j, self.current_iteration, self.tabu_matrix[i-1][j-1])
+                    print('TABU', i, j, self.best_fo, fo_best_neighbour, self.current_iteration, self.tabu_matrix[i-1][j-1])
 #                    print(i, j, self.current_iteration, self.tabu_matrix[i-1][j-1])
                 elif fo_neighbour < fo_best_neighbour and self.current_iteration > self.tabu_matrix[i-1][j-1]:
                     new_i, new_j = i, j
@@ -60,11 +60,12 @@ class TabuSearch(Method):
                     fo_best_neighbour = fo_neighbour
                 # Switch back positions of cities, restoring previus R.
                 R[i], R[j] = R[j], R[i] # Remove movement
-        self.tabu_matrix[new_i-1][new_j-1] = self.tabu_matrix[new_i-1][new_j-1] + self.duration
+        self.tabu_matrix[new_i-1][new_j-1] = self.current_iteration + self.duration
+        # print(self.current_iteration, new_i, new_j, self.tabu_matrix[new_i-1][new_j-1])
 #        print(new_i, new_j, self.tabu_matrix[new_i-1][new_j-1])
         return new_i, new_j, fo_best_neighbour
         
-    def tabu_search(self, iterMax=2500, duration=100):
+    def tabu_search(self, iterMax=2500, duration=7):
         import numpy as np
         import copy
         
@@ -73,8 +74,10 @@ class TabuSearch(Method):
         self.best_fo = self.solution.fo
         S = copy.deepcopy(self.solution)
         
+        cnt = 0
         self.current_iteration = 0
         while self.current_iteration < iterMax:
+            cnt += 1
             self.current_iteration += 1
             new_i, new_j, fo_neighbour = self.move_next_tabu_neighbour(S)
 #            print(new_i, new_j)
@@ -83,6 +86,7 @@ class TabuSearch(Method):
             if S.fo < self.best_fo:
                 self.solution = copy.deepcopy(S)
                 self.best_fo = S.fo
+                cnt = 0
 #                print('UPDATE',self.current_iteration, S.fo, self.best_fo)
             if self.current_iteration % 100 == 0:
                 print(S.fo, self.best_fo)
