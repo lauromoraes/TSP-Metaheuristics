@@ -2,20 +2,20 @@
 # -*- coding: utf-8 -*-
 
 from Method import Method
-from Solution import Solution
 from SolutionFactory import SolutionFactory
 from FirstImproventDescent import FirstImproventDescent
 from BestImproventDescent import BestImproventDescent
 from SimulatedAnnealing import SimulatedAnnealing
 
-class MultiStart(Method):
-    def __init__(self, solution):
-        super(MultiStart, self).__init__(solution)
 
-    def construct_solution(self, construct_type=1):
-        if construct_type < 1 or construct_type > 5:
-            construct_type = 1
-            print('ERROR: invalid option ({}) for construct method. Switch to "Random Construct Method.".'.format(construct_type))
+class GRASP(Method):
+    def __init__(self, solution):
+        super(GRASP, self).__init__(solution)
+
+    def construct_solution(self, construct_type=3):
+        if construct_type != 3 and construct_type != 5:
+            construct_type = 3
+            print('ERROR: invalid option ({}) for construct method. Switch to "Partially Greed Nearest Solution.".'.format(construct_type))
         solution = self.factory.setup_solution(construct_type)
         return solution, solution.fo
 
@@ -29,7 +29,7 @@ class MultiStart(Method):
         solution = method.solution
         return solution, solution.fo
 
-    def multi_start(self, iter_max=1500, construct_type=1, method_type=1):
+    def multi_start(self, iter_max=1500, construct_type=3, method_type=1):
         self.set_metrics('constructedFo','refinedFo','stars')
         
         import copy

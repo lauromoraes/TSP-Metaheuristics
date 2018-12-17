@@ -21,11 +21,11 @@ class Method(object):
     
     def plot_metrics(self):
         import matplotlib.pyplot as plt
-        
+        plt.figure()
         for metricName, values in self.metrics.items():
             plt.plot(values)
         plt.legend(self.metrics.keys())
-        plt.show()
+        plt.show(block=False)
     
     def local_search(self, solution, method_type=1):
         from Descent import FirstImproventDescent, BestImproventDescent, SimulatedAnnealing
@@ -49,7 +49,7 @@ class Method(object):
         best_i = best_j = None
 
         # For each city i
-        for i in range(1,n-1):
+        for i in range(0,n-1):
             # For each city j
             for j in range(i+1, n):
                 # Verify total value with edges formed with selecteds cities and respectives neighbours. Called delta value.
@@ -73,13 +73,12 @@ class Method(object):
 
     def adjacent_neighbour(self):
         n=self.n_cities
-        print('best_neighbour', n)
         route=self.solution.route
         fo_best_neighbour=fo=self.fo
         best_i = best_j = None
 
         # For each city i
-        for i in range(1,n-1):
+        for i in range(0,n-1):
             j = i+1
             # Verify total value with edges formed with selecteds cities and respectives neighbours. Called delta value.
             delta1 = self.delta(i, j)
@@ -104,7 +103,7 @@ class Method(object):
         route=self.solution.route
         improved=False
         fo_best_neighbour=fo=self.fo
-        positions=range(1,n)
+        positions=range(0,n)
         random.shuffle(positions)
         best_i = best_j = None
 
@@ -133,9 +132,9 @@ class Method(object):
         fo_new_neighbour = fo = self.fo = self.solution.fo
 
         # Select two diferent cities i, j
-        i = j = random.randint(1,n)
+        i = j = random.randint(0,n)
         while j==i:
-            j = random.randint(1,n)
+            j = random.randint(0,n)
         # Verify total value with edges formed with selecteds cities and respectives neighbours. Called delta value.
         delta1 = self.delta(i, j)
         # Apply movement. Switch allocation of cities i and j on the route.
@@ -149,16 +148,10 @@ class Method(object):
         return i, j, fo_new_neighbour
 
     def delta(self, i, j):
-        n = self.n_cities-1
+        n = self.n_cities
         i_before = n-1 if i==0   else i-1
         j_before = n-1 if j==0   else j-1
-        i_after = i+1
-        j_after = j+1
-        # i_after  = 0   if i==n-1 else i+1
-        # j_after  = 0   if j==n-1 else j+1
+        i_after  = 0   if i==n-1 else i+1
+        j_after  = 0   if j==n-1 else j+1
         R, D = self.solution.route, self.distances
-        # if i_after >=50 or j_after >= 50:
-        #     print(i_after, j_after)
-        #     print([x for x in range(len(R))])
-        #     print(R)
         return D[R[i_before], R[i]] + D[R[i], R[i_after]] + D[R[j_before], R[j]] + D[R[j], R[j_after]]

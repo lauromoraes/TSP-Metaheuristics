@@ -38,8 +38,12 @@ class Menu(object):
             print('\t4. Random Descent')
             print('\t5. Simulated Annealing')
             print('\t6. Multi Start')
-            print('\t7. Iterated Local Search')
+            print('\t7. Iterated Local Search - ILS')
             print('\t8. Tabu Search')
+            print('\t9. Greedy Randomized Adaptive Search Procedures - GRASP')
+            print('\t10. Variable Neighborhood Search - VNS')
+            print('\t11. Variable Neighborhood Descent - VND')
+            print('\t12. Genetic Algorithm - GA')
             print('\t0. Quit')
             print('*'*50)
             if self.problem.solution!=None:
@@ -92,11 +96,23 @@ class Menu(object):
             print('\t* Multi Start')
             method, _ = self.problem.apply_method('MultiStart')
         elif opt==7:
-            print('\t* Iterated Local Search')
+            print('\t* Iterated Local Search - ILS')
             method, _ = self.problem.apply_method('IteratedLocalSearch')
         elif opt==8:
             print('\t* Tabu Search')
             method, _ = self.problem.apply_method('TabuSearch')
+        elif opt==9:
+            print('\t* Greedy Randomized Adaptive Search Procedures - GRASP')
+            method, _ = self.problem.apply_method('GRASP')
+        elif opt==10:
+            print('\t* Variable Neighborhood Search - VNS')
+            method, _ = self.problem.apply_method('VariableNeighborhoodSearch')
+        elif opt==11:
+            print('\t* Variable Neighborhood Descent - VND')
+            method, _ = self.problem.apply_method('VariableNeighborhoodDescent')
+        elif opt==12:
+            print('\t* Genetic Algorithm - GA')
+            method, _ = self.problem.apply_method('GeneticAlgorithm')
         else:
             print('ERROR: invalid option ({})'.format(opt))
         print(self.problem.solution)

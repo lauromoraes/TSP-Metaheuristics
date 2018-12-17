@@ -1,10 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from Files import *
-from Solution import *
-from Descent import *
-from SimulatedAnnealing import *
-from MultiStart import *
+from Files import Files
+from SolutionFactory import SolutionFactory
 
 class Problem(object):
     def __init__(self, name, info_path, cities_path):
